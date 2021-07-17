@@ -19,7 +19,12 @@ public class App {
             return;
         }
         String previousHash = "";
-        for(int i=0;i<numBlocks;i++) addBlock();
+        for(int i=0;i<numBlocks;i++) {
+            Block newBlock = createEmptyBlock();
+            newBlock.addMessage("A", "B", i+"Block");
+            addBlock(newBlock);
+        }
+        System.out.println(blockchain.get(blockchain.size() - 1).payload.toString());
         
     }
 
@@ -37,14 +42,18 @@ public class App {
         return true;
     }
 
-    public static void addBlock() {
-        String previousHash = "";
+    public static void addBlock(Block currBlock) {
         int numBlocks = blockchain.size();
-        if(numBlocks == 0) previousHash = "0";
-        else previousHash = blockchain.get(numBlocks - 1).currentBlockHash;
-        Block currBlock = new Block(previousHash);
         currBlock.difficulty = difficulty;
         currBlock.mineBlock();
         blockchain.add(currBlock);
+    }
+
+    public static Block createEmptyBlock() {
+        String previousHash = "";
+        int numBlocks = blockchain.size();
+        if(numBlocks == 0) previousHash = "0";
+        else previousHash = blockchain.get(numBlocks-1).currentBlockHash;
+        return new Block(previousHash);
     }
 }

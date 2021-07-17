@@ -9,7 +9,7 @@ public class Block {
     public String currentBlockHash;
     public int difficulty;
     private String zeros;
-    public HashMap<String, HashMap<String, ArrayList<String>>> payload;
+    public HashMap<String, HashMap<String, ArrayList<Message>>> payload;
 
     public Block(String previousHash) {
         this.previousBlockHash = previousHash;
@@ -22,13 +22,13 @@ public class Block {
     }
 
     public String calculateHash() {
-        String descriptor = Long.toString(padding) + previousBlockHash + Long.toString(timeStamp) + payload.toString();
+        String descriptor = Long.toString(padding) + previousBlockHash + payload.toString();
         this.currentBlockHash = Hashing.hash(descriptor);
         return this.currentBlockHash; 
     }
 
     public boolean isBlockValid() {
-        String descriptor = Long.toString(padding) + previousBlockHash + Long.toString(timeStamp) + payload.toString();
+        String descriptor = Long.toString(padding) + previousBlockHash + payload.toString();
         String hashed = Hashing.hash(descriptor);
         if(!hashed.equals(this.currentBlockHash)) return false;
         String substr = this.currentBlockHash.substring(0, this.difficulty);
@@ -55,5 +55,12 @@ public class Block {
             temp.append("0");
         }
         return new String(temp);
+    }
+
+    public void addMessage(String from, String to, String message) {
+        Message data = new Message(from, to, message);
+        if(payload.get(to) == null) payload.put(to, new HashMap<>());
+        if(payload.get(to).get(from) == null) payload.get(to).put(from, new ArrayList<>());
+        payload.get(to).get(from).add(data);
     }
 }
