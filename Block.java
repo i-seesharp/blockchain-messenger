@@ -14,6 +14,7 @@ public class Block {
         this.padding = 0;
         this.timeStamp = new Date().getTime();
         this.payload = new HashMap<>();
+        this.currentBlockHash = "";
     }
 
     public String calculateHash() {

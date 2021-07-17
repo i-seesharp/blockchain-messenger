@@ -18,23 +18,32 @@ public class App {
             return;
         }
         String previousHash = "";
-        for(int i=0;i<numBlocks;i++){
-            if(blockchain.size() == 0) previousHash = "0";
-            else previousHash = blockchain.get(blockchain.size() - 1).currentBlockHash;
-            Block currBlock = new Block(previousHash);
-            System.out.println("Block " + i + ": " + currBlock.calculateHash());
-            blockchain.add(currBlock);
-        }
-        
+        for(int i=0;i<numBlocks;i++) addBlock();
+        System.out.println(isBlockChainValid());
+        System.out.println(isBlockChainValid());
     }
 
     public static boolean isBlockChainValid() {
         int numBlocks = blockchain.size();
         boolean isValid = true;
-        for(int i = numBlocks-1;i>=0;i--){
-            isValid = isValid && (blockchain.get(i).isBlockValid());
+        String previousHash = "0";
+        for(int i=0;i<numBlocks;i++){
+            Block currBlock = blockchain.get(i);
+            isValid = isValid && (currBlock.isBlockValid());
+            isValid = isValid && (previousHash.equals(currBlock.previousBlockHash));
+            previousHash = currBlock.currentBlockHash;
             if(!isValid) return false;
         }
         return true;
+    }
+
+    public static void addBlock() {
+        String previousHash = "";
+        int numBlocks = blockchain.size();
+        if(numBlocks == 0) previousHash = "0";
+        else previousHash = blockchain.get(numBlocks - 1).currentBlockHash;
+        Block currBlock = new Block(previousHash);
+        currBlock.calculateHash();
+        blockchain.add(currBlock);
     }
 }
