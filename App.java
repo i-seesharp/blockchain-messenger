@@ -5,11 +5,12 @@ import javafx.util.*;
 
 public class App {
     public static ArrayList<Block> blockchain;
-
+    public static int difficulty;
     public static void main(String[] args){
         System.out.println("Welcome to The Decentralized Messaging Chain!");
         if(args.length < 1) return;
         blockchain = new ArrayList<>();
+        difficulty = 3;
         int numBlocks = 0;
         try {
             numBlocks = Integer.parseInt(args[0]);
@@ -42,7 +43,8 @@ public class App {
         if(numBlocks == 0) previousHash = "0";
         else previousHash = blockchain.get(numBlocks - 1).currentBlockHash;
         Block currBlock = new Block(previousHash);
-        currBlock.mineBlock(3);
+        currBlock.difficulty = difficulty;
+        currBlock.mineBlock();
         blockchain.add(currBlock);
     }
 }
