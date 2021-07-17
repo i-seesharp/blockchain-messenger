@@ -9,13 +9,13 @@ public class Block {
     public String currentBlockHash;
     public int difficulty;
     private String zeros;
-    public HashMap<String, HashMap<String, ArrayList<Message>>> payload;
+    public TreeMap<String, TreeMap<String, ArrayList<Message>>> payload;
 
     public Block(String previousHash) {
         this.previousBlockHash = previousHash;
         this.padding = 0;
         this.timeStamp = new Date().getTime();
-        this.payload = new HashMap<>();
+        this.payload = new TreeMap<>();
         this.currentBlockHash = calculateHash();
         this.difficulty = 1;
         this.zeros = null;
@@ -59,7 +59,7 @@ public class Block {
 
     public void addMessage(String from, String to, String message) {
         Message data = new Message(from, to, message);
-        if(payload.get(to) == null) payload.put(to, new HashMap<>());
+        if(payload.get(to) == null) payload.put(to, new TreeMap<>());
         if(payload.get(to).get(from) == null) payload.get(to).put(from, new ArrayList<>());
         payload.get(to).get(from).add(data);
     }
