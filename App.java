@@ -19,8 +19,7 @@ public class App {
         }
         String previousHash = "";
         for(int i=0;i<numBlocks;i++) addBlock();
-        System.out.println(isBlockChainValid());
-        System.out.println(isBlockChainValid());
+        
     }
 
     public static boolean isBlockChainValid() {
@@ -43,7 +42,7 @@ public class App {
         if(numBlocks == 0) previousHash = "0";
         else previousHash = blockchain.get(numBlocks - 1).currentBlockHash;
         Block currBlock = new Block(previousHash);
-        currBlock.calculateHash();
+        currBlock.mineBlock(3);
         blockchain.add(currBlock);
     }
 }
