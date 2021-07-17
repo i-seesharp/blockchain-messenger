@@ -9,7 +9,7 @@ public class Block {
     public String currentBlockHash;
     public int difficulty;
     private String zeros;
-    public TreeMap<String, TreeMap<String, ArrayList<Message>>> payload;
+    public TreeMap<String, TreeMap<String, TreeSet<Message>>> payload;
 
     public Block(String previousHash) {
         this.previousBlockHash = previousHash;
@@ -60,7 +60,7 @@ public class Block {
     public void addMessage(String from, String to, String message) {
         Message data = new Message(from, to, message);
         if(payload.get(to) == null) payload.put(to, new TreeMap<>());
-        if(payload.get(to).get(from) == null) payload.get(to).put(from, new ArrayList<>());
+        if(payload.get(to).get(from) == null) payload.get(to).put(from, new TreeSet<>());
         payload.get(to).get(from).add(data);
     }
 }

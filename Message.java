@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Message {
+public class Message implements Comparable<Message> {
     private String from;
     private String to;
     public String data;
@@ -15,5 +15,9 @@ public class Message {
     @Override
     public String toString() {
         return Long.toString(this.timeStamp)+":"+ this.data;
+    }
+    @Override
+    public int compareTo(Message other) {
+        return (int)(this.timeStamp - other.timeStamp);
     }
 }
